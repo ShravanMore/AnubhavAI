@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Frontend-Backend Connection</title>
+</head>
+<body>
+    <h1>Testing API Endpoints</h1>
+    
+    <h2>Test 1: Discover Artifacts (/analyze)</h2>
+    <button onclick="testAnalyze()">Test /analyze</button>
+    <div id="analyze-result"></div>
+    
+    <h2>Test 2: Climate Impact (/climate-impact)</h2>
+    <input type="text" id="artifactName" value="Taj Mahal" />
+    <button onclick="testClimateImpact()">Test /climate-impact</button>
+    <div id="climate-result"></div>
+
+    <script>
+        const API_URL = 'http://localhost:5000';
+        
+        async function testAnalyze() {
+            const resultDiv = document.getElementById('analyze-result');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                // Create a simple 1x1 pixel image
+                const canvas = document.createElement('canvas');
+                canvas.width = 1;
+                canvas.height = 1;
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
+                
+                const formData = new FormData();
+                formData.append('image', blob, 'test.jpg');
+                
+                const response = await fetch(`${API_URL}/analyze`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                resultDiv.innerHTML = `<pre>Status: ${response.status}\nResponse: ${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<pre style="color: red;">Error: ${error.message}</pre>`;
+            }
+        }
+        
+        async function testClimateImpact() {
+            const resultDiv = document.getElementById('climate-result');
+            const artifactName = document.getElementById('artifactName').value;
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch(`${API_URL}/climate-impact`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ artifactName })
+                });
+                
+                const data = await response.json();
+                resultDiv.innerHTML = `<pre>Status: ${response.status}\nResponse: ${JSON.stringify(data, null, 2).substring(0, 500)}...</pre>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<pre style="color: red;">Error: ${error.message}</pre>`;
+            }
+        }
+    </script>
+</body>
+</html>
