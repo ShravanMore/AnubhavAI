@@ -45,7 +45,7 @@ function Navbar() {
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-1">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
-            <Landmark className="text-amber-700" size={28} />
+            <Landmark className="text-amber-700" size={32} />
             <span className={`font-serif text-xl ${isHomePage && scrollY <= 50 ? 'text-white' : 'text-stone-800'}`}>
               Anubhav AI
             </span>
