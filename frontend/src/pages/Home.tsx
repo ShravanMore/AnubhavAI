@@ -139,7 +139,7 @@ function Home() {
             </div>
           </div>
           <div className="border-t border-stone-800 mt-8 pt-8 text-center">
-            <p>&copy; {new Date().getFullYear()} Anubhav AI. All rights reserved.</p>
+            <p className="text-sm">&copy; {new Date().getFullYear()} Anubhav AI. All rights reserved.</p>
           </div>
         </div>
       </footer>
